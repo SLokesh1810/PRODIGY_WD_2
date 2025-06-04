@@ -1,0 +1,153 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Stop clock</title>
+    <link href="https://fonts.cdnfonts.com/css/digital-numbers" rel="stylesheet">
+    <style>
+        .clockBg{
+            background-image: url("stopclockImg.webp");
+            display: flex;
+            align-items: center;
+            margin: auto;
+            margin-top: 50px;
+            width: 500px;
+            height: 520px;
+            background-repeat: no-repeat;
+        }
+        .Bg{
+            background-color: white;
+            width: 365px;
+            height: 365px;
+            margin-left: 75px;
+            margin-top: 63px;
+            border-radius: 300px;
+        }
+        .stopWatch{
+            text-align: center;
+            margin: 95px 25px 40px 25px;
+            font-size: 48px;
+            padding: 7px;
+            font-family: 'Digital Numbers', sans-serif;
+            background-color: black;
+            color: aliceblue;
+            border-radius: 15px;
+        }
+        .btns{
+            align-items: center;
+            align-self: center;
+            margin: auto;
+            width: 230px;
+        }
+        button{
+            padding: 6px;
+            font-size: 20px;
+            margin: 6px;
+            width: 100px;
+            border-radius: 10px;
+            border: 2px solid red;
+            background-color: beige;
+            font-family: 'Digital Numbers', sans-serif;
+            transition: all 0.4s ease-out;
+        }
+        button:hover {
+            background-color: red;
+        }
+        .laps{
+            align-self: center;
+            margin: auto;
+            color: red;
+        }
+        .laps h1{
+            font-family: 'Digital Numbers', sans-serif;
+            text-align: center;
+            font-size: 35px;
+        }
+        .lapTimes {
+            align-self: center;
+            margin: auto;
+            font-family: 'Digital Numbers', sans-serif;
+            font-size: 20px;
+            word-spacing: 10px;
+            max-width: 1000px;
+        }
+    </style>
+</head>
+<body>
+    <div class="clockBg">
+        <div class="Bg">
+            <div class="stopWatch">
+                
+            </div>
+            <div class="btns">
+                <button class="start" onclick="start()">START</button>
+                <button class="stop" onclick="stop()">STOP</button>
+                <button class="reset" onclick="reset()">RESET</button>
+                <button class="lap" onclick="lap()">LAP</button>
+            </div>
+        </div>
+    </div>
+    <div class="laps">
+        <h1>LAPS: <button class="resetLaps">RESET</button></h1> 
+        <div class="lapTimes">
+            
+        </div>
+    </div>
+    <script>
+        const stopWatch = document.querySelector('.stopWatch');
+        const lapsText = document.querySelector('.lapTimes');
+        let stopWatchVal = {
+            "minutes" : 0,
+            "seconds" : 0,
+            "milli" : 0
+        }
+
+        let laps = [];
+
+        let timer = null;
+        printResult();
+
+        function printResult(){
+            stopWatch.textContent = `${stopWatchVal.minutes.toString().padStart(2, '0')}:${stopWatchVal.seconds.toString().padStart(2, '0')}:${stopWatchVal.milli.toString().padStart(2, '0')}`;
+        }
+
+        function start(){
+            stopWatchVal.milli ++;
+            if (stopWatchVal.milli == 100){
+                stopWatchVal.milli = 0;
+                if (stopWatchVal.seconds > 59){
+                    stopWatchVal.minutes = 0;
+                    stopWatchVal.seconds = 0;
+                } else {
+                    stopWatchVal.seconds ++;
+                }
+            }
+            printResult();
+            timer = setTimeout(start, 10);
+        }
+
+        function stop(){
+            clearTimeout(timer);
+        }
+
+        function reset(){
+            stopWatchVal.minutes = 0;
+            stopWatchVal.seconds = 0;
+            stopWatchVal.milli = 0;
+            printResult();
+        }
+
+        function lap(){
+            let textOfLaps = ''
+            let i = 1;
+            laps.push(`${stopWatchVal.minutes.toString().padStart(2, '0')}:${stopWatchVal.seconds.toString().padStart(2, '0')}:${stopWatchVal.milli.toString().padStart(2, '0')}`);
+            laps.forEach(element => {
+                textOfLaps += `  ${i.toString().padStart(2, '0')}-${element}  `;
+                i++;
+            });
+            lapsText.textContent = textOfLaps;
+        }
+    </script>
+</body>
+</html>
