@@ -89,7 +89,7 @@
         </div>
     </div>
     <div class="laps">
-        <h1>LAPS: <button class="resetLaps">RESET</button></h1> 
+        <h1>LAPS: <button class="resetLaps" onclick="lapReset()">RESET</button></h1> 
         <div class="lapTimes">
             
         </div>
@@ -147,6 +147,10 @@
                 i++;
             });
             lapsText.textContent = textOfLaps;
+        }
+        function lapReset(){
+            laps = [];
+            lapsText.textContent = "";
         }
     </script>
 </body>
